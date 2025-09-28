@@ -1,0 +1,57 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <numeric>
+
+using namespace std;
+
+int main() {
+    int N;
+    long long C;
+    cin >> N >> C;
+
+    vector<long long> budgets(N);
+    for (int i = 0; i < N; i++) {
+        cin >> budgets[i];
+    }
+
+    long long total_budget = accumulate(budgets.begin(), budgets.end(), 0LL);
+    if (total_budget < C) {
+        cout << "IMPOSSIBLE" << endl;
+        return 0;
+    }
+
+    sort(budgets.begin(), budgets.end());
+
+    vector<long long> payments(N);
+    long long remaining = C;
+
+    for (int i = 0; i < N; i++) {
+        long long fair_share = remaining / (N - i);
+        if (budgets[i] <= fair_share) {
+            payments[i] = budgets[i];
+        } else {
+            payments[i] = fair_share;
+        }
+        remaining -= payments[i];
+    }
+
+    // Теперь распределим оставшиеся деньги (из-за округления вниз)
+    // по 1, начиная с самых богатых
+    int i = N - 1;
+    while (remaining > 0 && i >= 0) {
+        long long max_possible_addition = budgets[i] - payments[i];
+        if (max_possible_addition > 0) {
+            payments[i] += 1;
+            remaining -= 1;
+        }
+        i--;
+    }
+
+    // Вывод в отсортированном порядке (уже отсортирован по budgets, но payments тоже в порядке возрастания budgets)
+    for (long long p : payments) {
+        cout << p << endl;
+    }
+
+    return 0;
+}
