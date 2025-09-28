@@ -1,0 +1,79 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+/**
+ * Auto-generated code below aims at helping you parse
+ * the standard input according to the problem statement.
+ **/
+
+int main()
+{
+    int w; // number of columns.
+    int h; // number of rows.
+    cin >> w >> h; cin.ignore();
+    
+    vector<vector<int>> grid(h, vector<int>(w));
+    
+    for (int i = 0; i < h; i++) {
+        for (int j = 0; j < w; j++) {
+            cin >> grid[i][j];
+        }
+        cin.ignore();
+    }
+    
+    int ex; // the coordinate along the X axis of the exit (not useful for this first mission, but must be read).
+    cin >> ex; cin.ignore();
+
+    // game loop
+    while (1) {
+        int xi;
+        int yi;
+        string pos;
+        cin >> xi >> yi >> pos; cin.ignore();
+
+        int roomType = grid[yi][xi];
+        int nextX = xi, nextY = yi;
+
+        // Определяем следующую позицию Инди на основе типа комнаты и точки входа
+        switch (roomType) {
+            case 1:
+            case 3:
+            case 7:
+            case 8:
+            case 9:
+            case 12:
+            case 13:
+                nextY = yi + 1;
+                break;
+            case 2:
+            case 6:
+                if (pos == "LEFT") nextX = xi + 1;
+                else if (pos == "RIGHT") nextX = xi - 1;
+                break;
+            case 4:
+                if (pos == "TOP") nextX = xi - 1;
+                else if (pos == "RIGHT") nextY = yi + 1;
+                break;
+            case 5:
+                if (pos == "TOP") nextX = xi + 1;
+                else if (pos == "LEFT") nextY = yi + 1;
+                break;
+            case 10:
+                nextX = xi - 1;
+                break;
+            case 11:
+                nextX = xi + 1;
+                break;
+        }
+
+        // Write an action using cout. DON'T FORGET THE "<< endl"
+        // To debug: cerr << "Debug messages..." << endl;
+
+        // One line containing the X Y coordinates of the room in which you believe Indy will be on the next turn.
+        cout << nextX << " " << nextY << endl;
+    }
+}
