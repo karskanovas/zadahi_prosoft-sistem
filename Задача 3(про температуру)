@@ -1,0 +1,41 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <cmath>
+
+using namespace std;
+
+/**
+ * Auto-generated code below aims at helping you parse
+ * the standard input according to the problem statement.
+ **/
+
+int main()
+{
+    int n; // the number of temperatures to analyse
+    cin >> n; cin.ignore();
+    if (n == 0) {
+        cout << 0 << endl;
+        return 0;
+    }
+    int end_temp = 5527; 
+
+    for (int i = 0; i < n; i++) {
+        int t; // a temperature expressed as an integer ranging from -273 to 5526
+        cin >> t; cin.ignore();
+        if (abs(t) < abs(end_temp)) {
+            end_temp = t;
+        }
+        else if (abs(t) == abs(end_temp)) {
+            if (t > end_temp) {
+                end_temp = t;
+            }
+        }
+    }
+
+    // Write an answer using cout. DON'T FORGET THE "<< endl"
+    // To debug: cerr << "Debug messages..." << endl;
+
+   cout << end_temp << endl;
+}
