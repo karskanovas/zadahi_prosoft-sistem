@@ -1,0 +1,55 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int main()
+{
+    int nb_floors;
+    int width;
+    int nb_rounds;
+    int exit_floor;
+    int exit_pos;
+    int nb_total_clones;
+    int nb_additional_elevators;
+    int nb_elevators;
+    cin >> nb_floors >> width >> nb_rounds >> exit_floor >> exit_pos >> nb_total_clones >> nb_additional_elevators >> nb_elevators; cin.ignore();
+
+    vector<int> elevator_pos(nb_floors, -1);
+    for (int i = 0; i < nb_elevators; i++) {
+        int elevator_floor;
+        int elevator_position;
+        cin >> elevator_floor >> elevator_position; cin.ignore();
+        if (elevator_floor >= 0 && elevator_floor < nb_floors) elevator_pos[elevator_floor] = elevator_position;
+    }
+
+    while (1) {
+        int clone_floor;
+        int clone_pos;
+        string direction;
+        cin >> clone_floor >> clone_pos >> direction; cin.ignore();
+
+        if (clone_floor == -1) {
+            cout << "WAIT" << endl;
+            continue;
+        }
+
+        int target;
+        if (clone_floor == exit_floor) target = exit_pos;
+        else {
+            target = elevator_pos[clone_floor];
+            if (target == -1) target = 0;
+        }
+
+        if (direction == "LEFT") {
+            if (clone_pos < target) cout << "BLOCK" << endl;
+            else cout << "WAIT" << endl;
+        } else {
+            if (clone_pos > target) cout << "BLOCK" << endl;
+            else cout << "WAIT" << endl;
+        }
+    }
+    return 0;
+}
